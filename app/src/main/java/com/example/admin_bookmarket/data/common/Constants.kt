@@ -1,5 +1,7 @@
 package com.example.admin_bookmarket.data.common
 
+import com.example.admin_bookmarket.R
+
 
 object Constants {
     //App
@@ -32,7 +34,7 @@ object Constants {
     //Bindings
     const val MOVIE_POSTER = "moviePoster"
     const val PRODUCT_LOGO = "productLogo"
-
+    const val DEFAULT_IMG_PLACEHOLDER = R.drawable.bg_radius_white
     enum class ACTIVITY {
        PROFILE, MENU, SEARCH, CART, CATEGORY, FEATURE, CATEGORY_DETAIL;
 

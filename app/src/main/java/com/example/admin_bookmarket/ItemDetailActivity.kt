@@ -15,7 +15,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.admin_bookmarket.ViewModel.ItemDetailViewModel
+import com.example.admin_bookmarket.data.common.Constants
 import com.example.admin_bookmarket.data.model.Book
 import com.example.admin_bookmarket.databinding.ActivityItemDetailBinding
 import com.example.admin_bookmarket.ui.login.LoadDialog
@@ -87,8 +90,10 @@ class ItemDetailActivity : AppCompatActivity() {
             Glide
                 .with(baseContext)
                 .load(imageUri)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.idTnBackground)
             oldImageId = ""
             oldImageUrl = ""
@@ -120,14 +125,18 @@ class ItemDetailActivity : AppCompatActivity() {
         Glide
             .with(baseContext)
             .load(uri)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.idTnBackground)
         Glide
             .with(baseContext)
             .load(uri)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.idThumbnail)
     }
 

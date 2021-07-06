@@ -8,11 +8,15 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.admin_bookmarket.R
 import com.example.admin_bookmarket.RecyclerViewClickListener
+import com.example.admin_bookmarket.data.common.Constants.DEFAULT_IMG_PLACEHOLDER
 import com.example.admin_bookmarket.data.model.Book
 import com.example.admin_bookmarket.databinding.CardBookBinding
 import com.google.android.material.card.MaterialCardView
+
 
 class Adapter(
     private var values: MutableList<Book>, private val itemListener:RecyclerViewClickListener
@@ -51,8 +55,10 @@ class Adapter(
         Glide
             .with(holder.itemView)
             .load(item.Image)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(DEFAULT_IMG_PLACEHOLDER)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.bookImage);
     }
 

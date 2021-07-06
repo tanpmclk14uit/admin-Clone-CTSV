@@ -13,9 +13,12 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.admin_bookmarket.ViewModel.AddItemViewModel
 import com.example.admin_bookmarket.data.common.AppUtil
 import com.example.admin_bookmarket.data.common.AppUtils
+import com.example.admin_bookmarket.data.common.Constants
 import com.example.admin_bookmarket.databinding.ActivityAddItemBinding
 import com.example.admin_bookmarket.ui.login.LoadDialog
 import com.google.firebase.storage.FirebaseStorage
@@ -132,8 +135,10 @@ class AddItemActivity : AppCompatActivity() {
             Glide
                 .with(baseContext)
                 .load(imageUri)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.idTnBackground)
         }
     }
