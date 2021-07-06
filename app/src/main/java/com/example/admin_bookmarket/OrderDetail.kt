@@ -148,7 +148,6 @@ class OrderDetail : AppCompatActivity() {
                     binding.statusBox.isEnabled = false
                 }
                 setUpUpdateButton(false,"UPDATE")
-
             }
         }
         if(viewModel.updateUserStatus(currentOrder.currentUser.email, currentOrder.id, currentOrder.status)){
