@@ -143,7 +143,12 @@ class OrderDetail : AppCompatActivity() {
             if(currentOrder.status == "WAITING"){
                 setUpUpdateButton(true, "CONFIRM")
             }else{
+                if(currentOrder.status == "CANCEL"){
+                    binding.status.isEnabled = false
+                    binding.statusBox.isEnabled = false
+                }
                 setUpUpdateButton(false,"UPDATE")
+
             }
         }
         if(viewModel.updateUserStatus(currentOrder.currentUser.email, currentOrder.id, currentOrder.status)){
