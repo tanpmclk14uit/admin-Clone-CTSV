@@ -123,8 +123,6 @@ class RegisterActivity : AppCompatActivity() {
         }.addOnFailureListener { e ->
             Toast.makeText(this, "Register Fail$e", Toast.LENGTH_SHORT).show()
         }
-        val dbReferenceRecentAccountUserAddressAccount = dbReference.document(appAccount.email).collection("userDeliverAddresses")
-//        dbReferenceRecentAccountUserAddressAccount.document().set(UserDeliverAddress("",user.fullName, user.phoneNumber, user.addressLane, user.district,user.city, true))
         finish()
         startActivity(Intent(baseContext,LoginActivity::class.java))
     }
