@@ -37,22 +37,8 @@ class SearchViewModel @Inject constructor(): ViewModel() {
                 if (value != null) {
                     var lstAllBook: MutableList<Book> = mutableListOf()
                     for(doc in value) {
-                        if (doc.data["Saler"].toString() == AppUtil.currentAccount.email) {
-                            var bookItem: Book = Book(
-                                doc.id,
-                                doc.data["Image"].toString(),
-                                doc.data["Name"].toString(),
-                                doc.data["Author"].toString(),
-                                doc.data["Price"].toString().toDouble().roundToInt(),
-                                doc.data["rate"].toString().toDouble().roundToInt(),
-                                doc.data["Kind"].toString(),
-                                doc.data["Counts"].toString().toDouble().roundToInt(),
-                                doc.data["Description"].toString(),
-                                doc.data["Saler"].toString(),
-                                doc.data["SalerName"].toString()
-                            )
+                            var bookItem: Book = AppUtil.toBook(doc)
                             lstAllBook.add(bookItem)
-                        }
                     }
                     _lstBook.value = lstAllBook
                 }

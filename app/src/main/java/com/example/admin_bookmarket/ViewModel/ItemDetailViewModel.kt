@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.example.admin_bookmarket.data.common.AppUtil
 import com.example.admin_bookmarket.data.common.Constants
 import com.example.admin_bookmarket.data.common.Constants.ITEM
 import com.example.admin_bookmarket.data.model.Book
@@ -48,15 +49,11 @@ class ItemDetailViewModel @Inject constructor(
                     if (value?.data?.get("Image") != null) {
                         var bookItem: Book = Book(
                             id.value,
-                            value?.data?.get("Image").toString(),
-                            value?.data?.get("Name").toString(),
-                            value?.data?.get("Author").toString(),
-                            value?.data?.get("Price").toString().toDouble().roundToInt(),
-                            value?.data?.get("rate").toString().toDouble().roundToInt(),
-                            value?.data?.get("Kind").toString(),
-                            value?.data?.get("Counts").toString().toDouble().roundToInt(),
-                            value?.data?.get("ImageID").toString(),
-                            value?.data?.get("Description").toString()
+                            value.data?.get("Image").toString(),
+                            value.data?.get("Name").toString(),
+                            value.data?.get("Kind").toString(),
+                            value.data?.get("Description").toString(),
+                            value.data?.get("ImageID").toString(),
                         )
                         book.value = bookItem
                     }
@@ -71,35 +68,28 @@ class ItemDetailViewModel @Inject constructor(
         FirebaseFirestore.getInstance().collection("books").document(id)
             .update("Name", newBook.Name)
         FirebaseFirestore.getInstance().collection("books").document(id)
-            .update("Author", newBook.Author)
-        FirebaseFirestore.getInstance().collection("books").document(id)
-            .update("Price", newBook.Price)
-        FirebaseFirestore.getInstance().collection("books").document(id)
-            .update("rate", newBook.rate)
-        FirebaseFirestore.getInstance().collection("books").document(id)
             .update("Kind", newBook.Kind)
-        FirebaseFirestore.getInstance().collection("books").document(id)
-            .update("Counts", newBook.Counts)
         FirebaseFirestore.getInstance().collection("books").document(id)
             .update("Description", newBook.Description)
         FirebaseFirestore.getInstance().collection("books").document(id)
             .update("ImageID", newBook.imageId)
-        Toast.makeText(appContext, "Update book success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(appContext, "Cập nhật thông báo thành công", Toast.LENGTH_SHORT).show()
 
     }
 
     private val reference: StorageReference = FirebaseStorage.getInstance().reference
+
     fun deleteBook(book: Book) {
         val desertRef = reference.child(book.imageId!!)
         desertRef.delete().addOnSuccessListener {
             FirebaseFirestore.getInstance().collection("books").document(book.id!!).delete()
                 .addOnSuccessListener {
-                    Toast.makeText(appContext, "Delete book success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, "Xóa thông báo thành công", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener { e ->
-                Toast.makeText(appContext, "Delete book failed $e", Toast.LENGTH_SHORT).show()
+                Toast.makeText(appContext, "Xóa thông báo thất bại $e", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(appContext, "Delete book failed $e", Toast.LENGTH_SHORT).show()
+            Toast.makeText(appContext, "Xóa thông báo thất bại $e", Toast.LENGTH_SHORT).show()
         }
     }
 }

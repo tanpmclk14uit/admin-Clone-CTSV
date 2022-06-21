@@ -14,14 +14,12 @@ object AppUtil {
 
     fun toBook(doc: QueryDocumentSnapshot): Book {
         var bookItem = Book()
-        bookItem.Author = doc["Author"].toString()
-        bookItem.Counts = doc["Counts"].toString().toDouble().roundToInt()
+        bookItem.id = doc.id
         bookItem.Description = doc["Description"].toString()
         bookItem.Image = doc["Image"].toString()
         bookItem.Kind = doc["Kind"].toString()
         bookItem.Name = doc["Name"].toString()
-        bookItem.Price = doc["Price"].toString().toDouble().roundToInt()
-        bookItem.rate = doc["rate"].toString().toDouble().roundToInt()
+        bookItem.imageId = doc["ImageId"].toString()
         return bookItem
     }
 

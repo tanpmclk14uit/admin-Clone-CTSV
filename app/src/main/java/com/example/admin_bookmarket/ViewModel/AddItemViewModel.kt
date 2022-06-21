@@ -16,7 +16,7 @@ class AddItemViewModel @Inject constructor(
     fun addtoDb(newBook: MutableMap<String, Any>)
     {
         FirebaseFirestore.getInstance().collection("books").add(newBook).addOnFailureListener {
-            Toast.makeText(appContext,"Upload book false $it", Toast.LENGTH_SHORT).show()
+            Toast.makeText(appContext,"Đăng thông báo thành công $it", Toast.LENGTH_SHORT).show()
         }
     }
 }

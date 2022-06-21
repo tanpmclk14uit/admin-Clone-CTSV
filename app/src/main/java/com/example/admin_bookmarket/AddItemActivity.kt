@@ -41,7 +41,6 @@ class AddItemActivity : AppCompatActivity() {
         binding = ActivityAddItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.idTnBackground.setImageDrawable(resources.getDrawable(R.drawable.add_new_book))
 
         binding.idAddBook.setOnClickListener {
             pushImageToStorage()
@@ -66,7 +65,7 @@ class AddItemActivity : AppCompatActivity() {
 
     private fun checkValidEditText(editText: EditText): Boolean {
         return if (editText.text.isBlank()) {
-            editText.error = "This filed can not be blank"
+            editText.error = "Vui lòng điền đầy đủ thông tin"
             false
         } else {
             true
@@ -77,15 +76,15 @@ class AddItemActivity : AppCompatActivity() {
         return if (binding.idKind.text.toString() != "Kind") {
             true
         } else {
-            binding.idKind.error = "Select kind of new book"
+            binding.idKind.error = "Chọn loại thông báo"
             false
         }
     }
 
 
     private fun pushImageToStorage() {
-        if (checkValidEditText(binding.idCount) && checkValidEditText(binding.idTitle) &&
-            checkValidEditText(binding.idAuthor) && checkValidKind() && checkValidEditText(binding.idPrice) && checkValidEditText(
+        if (checkValidEditText(binding.idTitle) &&
+             checkValidEditText(
                 binding.idDescription
             ) && imageUri != null
 
@@ -98,17 +97,17 @@ class AddItemActivity : AppCompatActivity() {
 
             fileRef.putFile(imageUri as Uri).addOnSuccessListener {
                 fileRef.downloadUrl.addOnSuccessListener {
-                    Toast.makeText(this, "Upload success image", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Tải hình ảnh thành công", Toast.LENGTH_SHORT).show()
                     addNewBook(it.toString(), imgId)
                     loadDialog.dismissDialog()
                 }
             }.addOnFailureListener {
                 loadDialog.dismissDialog()
-                Toast.makeText(this, "Upload image failed $it", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Tải hình ảnh lên thất bại $it", Toast.LENGTH_SHORT).show()
 
             }
         } else {
-            Toast.makeText(this, "Please fill all information", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -131,14 +130,6 @@ class AddItemActivity : AppCompatActivity() {
         if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
             imageUri = data.data!!
             binding.idThumbnail.setImageURI(imageUri)
-            Glide
-                .with(baseContext)
-                .load(imageUri)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.idTnBackground)
         }
     }
 
@@ -147,27 +138,17 @@ class AddItemActivity : AppCompatActivity() {
         newBook = mutableMapOf(
             "Image" to imgUrl,
             "Name" to binding.idTitle.text.toString(),
-            "Author" to binding.idAuthor.text.toString(),
-            "Price" to binding.idPrice.text.toString().toDouble().roundToInt(),
-            "rate" to "0".toDouble().roundToInt(),
             "Kind" to binding.idKind.text.toString(),
-            "Counts" to binding.idCount.text.toString().toDouble().roundToInt(),
             "Description" to binding.idDescription.text.toString(),
             "ImageID" to imgId,
-            "Saler" to AppUtil.currentAccount.email,
-            "SalerName" to AppUtil.currentAccount.information.fullName
         )
         viewModel.addtoDb(newBook)
-        binding.idCount.setText("", TextView.BufferType.EDITABLE)
-        binding.idAuthor.setText("", TextView.BufferType.EDITABLE)
         binding.idTitle.setText("", TextView.BufferType.EDITABLE)
         binding.idDescription.setText("", TextView.BufferType.EDITABLE)
-        binding.idPrice.setText("", TextView.BufferType.EDITABLE)
         binding.idKind.setText("", TextView.BufferType.EDITABLE)
         binding.idThumbnail.setImageDrawable(resources.getDrawable(R.drawable.add_new_book))
-        binding.idTnBackground.setImageDrawable(resources.getDrawable(R.drawable.add_new_book))
        // binding.idTnBackground.setBackgroundDrawable(resources.getDrawable(R.drawable.add_new_book))
-        Toast.makeText(this, "Add success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Thêm thông báo thành công", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.admin_bookmarket.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,14 +34,12 @@ class HomeFragment : Fragment(), RecyclerViewClickListener {
     private val binding get() = _binding!!
     //private val model: SharedViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val homeRc = binding.hList
         bookAdapter = Adapter(lstBook, this )
         homeRc.apply {
-            layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            addItemDecoration(MarginItemDecoration(spaceSize = 15, spanCount = 2))
             adapter = bookAdapter
         }
         binding.option.setOnClickListener {
@@ -65,6 +64,7 @@ class HomeFragment : Fragment(), RecyclerViewClickListener {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private val changeObserver = Observer<MutableList<Book>> { value ->
         value?.let {
             lstBook = value
@@ -73,12 +73,6 @@ class HomeFragment : Fragment(), RecyclerViewClickListener {
         }
         setUpMessage()
     }
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//
-////        HomeFragmentDirections.actionNavHomeToNavDetail()
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -87,22 +81,11 @@ class HomeFragment : Fragment(), RecyclerViewClickListener {
     }
 
     override fun recyclerViewListClicked(v: View?, id: String) {
-//        val action = HomeFragmentDirections.actionNavHomeToNavDetail().apply {
-//            bookId = position
-//            shouldIRenderItemValue = true
-//        }
-//
-//        v?.findNavController()?.navigate(action)
         val intent = Intent(binding.root.context, ItemDetailActivity::class.java)
         val bundle = Bundle()
         bundle.putString(ITEM, id)
         intent.putExtras(bundle)
         binding.root.context.startActivity(intent)
     }
-
-    public fun onBackPressed() {
-        isBackPressed = true
-    }
-
 
 }

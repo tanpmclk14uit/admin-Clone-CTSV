@@ -1,21 +1,15 @@
 package com.example.admin_bookmarket.ui
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.admin_bookmarket.R
 import com.example.admin_bookmarket.RecyclerViewClickListener
 import com.example.admin_bookmarket.data.common.Constants.DEFAULT_IMG_PLACEHOLDER
 import com.example.admin_bookmarket.data.model.Book
 import com.example.admin_bookmarket.databinding.CardBookBinding
-import com.google.android.material.card.MaterialCardView
 
 
 class Adapter(
@@ -46,33 +40,24 @@ class Adapter(
                 itemListener.recyclerViewListClicked(this, values[position].id!!)
             }
         }
-
         val item = values[position]
         holder.bookName.text = item.Name
-        holder.bookAuthor.text = item.Author
-        holder.bookCount.text = item.rate.toString()
-        holder.bookPrice.text = item.Price.toString() + " đ"
+        holder.bookAuthor.text = item.Description
         Glide
             .with(holder.itemView)
             .load(item.Image)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .centerCrop()
+            .centerInside()
             .placeholder(DEFAULT_IMG_PLACEHOLDER)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(holder.bookImage);
+            .into(holder.bookImage)
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(binding:CardBookBinding) : RecyclerView.ViewHolder(binding.root) {
         val bookName = binding.bookTitle
-        val bookCount = binding.bookRate
-        val bookPrice = binding.bookPrice
         val bookAuthor = binding.bookAuthor
         val bookImage = binding.BookImage
-//        override fun toString(): String {
-//            return super.toString() + " '" + contentView.text + "'"
-//        }
     }
 
 }

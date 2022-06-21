@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:checkable="true"
+    android:layout_margin="5dp"
     android:clickable="true"
     android:focusable="true"
     app:cardBackgroundColor="@color/white"
@@ -14,16 +15,10 @@
 
 <!--    168-->
     <LinearLayout
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginBottom="7dp"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -33,9 +28,9 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/BookImage"
-                android:layout_width="145dp"
-                android:layout_height="145dp"
-                android:scaleType="centerCrop"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/loading"
                 app:riv_border_color="@color/white"
                 app:riv_border_width="0dip"
@@ -45,13 +40,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_marginStart="10dp"
             android:layout_gravity="left"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/bookTitle"
                 android:layout_width="match_parent"
-                android:layout_height="41dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
@@ -66,47 +62,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:maxLines="2"
+                android:maxLines="3"
+                android:layout_marginTop="7dp"
                 android:ellipsize="end"
                 android:id="@+id/bookAuthor"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="By rainbow rowell"
-                android:singleLine="true"
+                android:text="@string/textTest"
+                android:singleLine="false"
                 android:textColor="@color/disable"
                 android:textSize="@dimen/text_super_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bookTitle" />
-
-
-            <TextView
-                android:id="@+id/bookPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/price_format_vn"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_small"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bookAuthor" />
-
-            <TextView
-                android:id="@+id/bookRate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:layout_constraintHorizontal_bias="1"
-                android:drawableRight="@drawable/small_star"
-                android:fontFamily="@font/roboto_regular"
-                android:text="3"
-                android:textColor="@color/disable"
-                android:textSize="12dp"
-                app:layout_constraintBottom_toBottomOf="@+id/bookPrice"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/bookPrice"
-                />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -59,13 +59,13 @@ class ItemDetailActivity : AppCompatActivity() {
 
         binding.idDelete.setOnClickListener {
             val builder = AlertDialog.Builder(this@ItemDetailActivity)
-            builder.setMessage("Are you sure you want to DELETE this book?")
+            builder.setMessage("Bạn chắc chắn muốn Xóa thông báo này?")
                 .setCancelable(false)
-                .setPositiveButton("Yes") { dialog, id ->
+                .setPositiveButton("Đồng ý") { dialog, id ->
                     // Delete selected note from database
                     deleteCurrentBook()
                 }
-                .setNegativeButton("No") { dialog, id ->
+                .setNegativeButton("Không") { dialog, id ->
                     dialog.dismiss()
                 }
             val alert = builder.create()
@@ -87,14 +87,6 @@ class ItemDetailActivity : AppCompatActivity() {
         if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
             imageUri = data.data!!
             binding.idThumbnail.setImageURI(imageUri)
-            Glide
-                .with(baseContext)
-                .load(imageUri)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.idTnBackground)
             oldImageId = ""
             oldImageUrl = ""
         }
@@ -108,12 +100,8 @@ class ItemDetailActivity : AppCompatActivity() {
     private val changeObserver = Observer<Book> { value ->
         value?.let {
             displayItem = value
-            binding.idAuthor.setText(value.Author, TextView.BufferType.EDITABLE)
-            binding.idPrice.setText(value.Price.toString(), TextView.BufferType.EDITABLE)
-            binding.idRate.setText(value.rate.toString(), TextView.BufferType.EDITABLE)
             binding.idTitle.setText(value.Name, TextView.BufferType.EDITABLE)
             binding.idKind.setText(value.Kind, false)
-            binding.idCount.setText(value.Counts.toString(), TextView.BufferType.EDITABLE)
             binding.idDescription.setText(value.Description, TextView.BufferType.EDITABLE)
             oldImageUrl = value.Image
             oldImageId = value.imageId
@@ -126,15 +114,7 @@ class ItemDetailActivity : AppCompatActivity() {
             .with(baseContext)
             .load(uri)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .centerCrop()
-            .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.idTnBackground)
-        Glide
-            .with(baseContext)
-            .load(uri)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .centerCrop()
+            .centerInside()
             .placeholder(Constants.DEFAULT_IMG_PLACEHOLDER)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.idThumbnail)
@@ -156,7 +136,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
     private fun checkValidEditText(editText: EditText): Boolean {
         return if (editText.text.isBlank()) {
-            editText.error = "This filed can not be blank"
+            editText.error = "Vui lòng điển đầy đủ thông tin"
             false
         } else {
             true
@@ -167,7 +147,7 @@ class ItemDetailActivity : AppCompatActivity() {
         return if (binding.idKind.text.toString() != "Kind") {
             true
         } else {
-            binding.idKind.error = "Select kind of new book"
+            binding.idKind.error = "Chọn loại thông báo"
             false
         }
     }
@@ -175,24 +155,17 @@ class ItemDetailActivity : AppCompatActivity() {
     private val reference: StorageReference = FirebaseStorage.getInstance().reference
     private lateinit var loadDialog: LoadDialog
     private fun updateToDb() {
-        if (checkValidEditText(binding.idCount) &&
-            checkValidEditText(binding.idTitle) &&
-            checkValidEditText(binding.idAuthor) &&
+        if (checkValidEditText(binding.idTitle) &&
             checkValidKind() &&
-            checkValidEditText(binding.idPrice) &&
             checkValidEditText(binding.idDescription)
         ) {
-            var newBook = Book(
+            val newBook = Book(
                 displayItem.id,
                 oldImageUrl,
                 binding.idTitle.text.toString(),
-                binding.idAuthor.text.toString(),
-                binding.idPrice.text.toString().toDouble().roundToInt(),
-                binding.idRate.text.toString().toDouble().roundToInt(),
                 binding.idKind.text.toString(),
-                binding.idCount.text.toString().toDouble().roundToInt(),
+                binding.idDescription.text.toString(),
                 oldImageId,
-                binding.idDescription.text.toString()
             )
             if (newBook != displayItem) {
                 if (imageUri != null) {
@@ -204,7 +177,7 @@ class ItemDetailActivity : AppCompatActivity() {
                     val fileRef: StorageReference = reference.child(imgId)
                     fileRef.putFile(imageUri as Uri).addOnSuccessListener {
                         fileRef.downloadUrl.addOnSuccessListener {
-                            Toast.makeText(this, "Upload success image", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Tải ảnh lên thành công!", Toast.LENGTH_SHORT).show()
                             val desertRef = reference.child(displayItem.imageId!!)
                             desertRef.delete()
                             newBook.imageId = imgId
@@ -214,13 +187,13 @@ class ItemDetailActivity : AppCompatActivity() {
                         }
                     }.addOnFailureListener {
                         loadDialog.dismissDialog()
-                        Toast.makeText(this, "Upload failed image", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Tải ảnh lên thất bại", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     viewModel.updateToDb(displayItem.id!!, newBook)
                 }
             }else{
-                Toast.makeText(this, "Nothing to update", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Không có gì để cập nhật", Toast.LENGTH_SHORT).show()
             }
         }
     }

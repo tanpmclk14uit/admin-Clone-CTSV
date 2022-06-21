@@ -37,7 +37,7 @@
             android:textColor="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Search books"
+            android:text="Tìm kiếm thông báo"
             android:textStyle="normal"
             android:editable="false"
             android:focusable="false"

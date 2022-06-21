@@ -27,23 +27,8 @@ public class FullBookList private constructor(var lstFullBook: MutableList<Book>
                 }
                 val bookList: MutableList<Book> = ArrayList()
                 for (doc in value!!) {
-                    if (doc.data["Saler"].toString() == AppUtil.currentAccount.email ) {
-                        var bookItem = Book(
-                            doc.id,
-                            doc.data["Image"].toString(),
-                            doc.data["Name"].toString(),
-                            doc.data["Author"].toString(),
-                            doc.data["Price"].toString().toDouble().roundToInt(),
-                            doc.data["rate"].toString().toDouble().roundToInt(),
-                            doc.data["Kind"].toString(),
-                            doc.data["Counts"].toString().toDouble().roundToInt(),
-                            doc.data["ImageID"].toString(),
-                            doc.data["Description"].toString(),
-                            doc.data["Saler"].toString(),
-                            doc.data["SalerName"].toString()
-                        )
+                        val bookItem = AppUtil.toBook(doc)
                         bookList.add(bookItem)
-                    }
                 }
                 lstFullBook = bookList
             }
@@ -62,39 +47,6 @@ public class FullBookList private constructor(var lstFullBook: MutableList<Book>
         {
             Holder.INSTANCE.getDataBySnapshot()
         }
-//        private fun getDataFromDb(): MutableList<Book> {
-//            val lstFullBook: MutableList<Book> = mutableListOf()
-//            val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-//            val ref = db.collection("books")
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    for (document in result) {
-//                        val doc = document.data;
-//                        val authors: String = document.get("Author").toString();
-//                        val count: Long = document.get("Counts").toString().toLong();
-//                        val description: String = document.get("Description").toString();
-//                        val image: Uri = Uri.parse(document.get("Image").toString());
-//                        val kind: String = document.get("Kind").toString();
-//                        val name: String = document.get("Name").toString();
-//                        val rate: Double = document.get("rate").toString().toDouble();
-//                        val price: Long = document.get("Price").toString().toLong();
-//                        val book: Book = Book(
-//                            document.id,
-//                            image,
-//                            name,
-//                            authors,
-//                            price,
-//                            rate,
-//                            kind,
-//                            count,
-//                            description
-//                        )
-//                        lstFullBook.add(book)
-//                    }
-//                }
-//
-//            return lstFullBook
-//        }
 
     }
 }
