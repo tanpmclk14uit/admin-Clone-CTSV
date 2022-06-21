@@ -91,13 +91,14 @@ class LoginActivity : AppCompatActivity() {
                                 AppUtil.currentAccount.email = email
                                 FirebaseFirestore.getInstance().collection("salerAccount")
                                     .document(email).get().addOnSuccessListener {
+                                        val mapToInformation = it.data!!["information"] as Map<*,*>
                                         loadDialog.dismissDialog()
                                         val recentInformation: Information = Information(
-                                            fullName = it.data!!["fullName"].toString(),
-                                            introduction = it.data!!["introduction"].toString(),
-                                            webSite = it.data!!["webSite"].toString(),
-                                            phoneNumber = it.data!!["phoneNumber"].toString(),
-                                            address = it.data!!["address"].toString(),
+                                            fullName = mapToInformation["fullName"].toString(),
+                                            introduction = mapToInformation["introduction"].toString(),
+                                            webSite = mapToInformation["webSite"].toString(),
+                                            phoneNumber = mapToInformation["phoneNumber"].toString(),
+                                            address = mapToInformation["address"].toString(),
                                         )
                                         startActivity(Intent(baseContext, MainActivity::class.java))
                                         AppUtil.currentInformation = recentInformation

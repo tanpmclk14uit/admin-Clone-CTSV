@@ -30,7 +30,7 @@ class Information : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentInformationBinding.inflate(inflater, container, false)
         setInfoView()
@@ -45,25 +45,17 @@ class Information : Fragment() {
             startActivity(Intent(binding.root.context, EditProfileActivity::class.java))
 
         }
-        binding.imgBack.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
         return binding.root
     }
 
     @SuppressLint("SetTextI18n")
     private fun setInfoView(){
-//        binding.email.text = viewModel.getAccountInfo().email
-//        binding.userName.text = viewModel.getUserInfo().fullName
-//        binding.birthday.text = viewModel.getUserInfo().birthDay
-//        binding.addressLane.text = viewModel.getUserInfo().addressLane
-//        binding.gender.text = viewModel.getUserInfo().gender
-//        binding.phone.text = viewModel.getUserInfo().phoneNumber
-//        binding.city.text = viewModel.getUserInfo().district +", "+ viewModel.getUserInfo().city
-//        if(viewModel.getUserInfo().gender =="Male"){
-//            binding.avatar.setImageResource(R.drawable.ic_male)
-//        }else{
-//            binding.avatar.setImageResource(R.drawable.ic_female)
-//        }
+        val information = viewModel.getUserInfo()
+        binding.email.text = viewModel.getAccountInfo().email
+        binding.userName.text = information.fullName
+        binding.website.text = information.webSite
+        binding.address.text = information.address
+        binding.phone.text = information.phoneNumber
+        binding.introduction.text = information.introduction
     }
 }

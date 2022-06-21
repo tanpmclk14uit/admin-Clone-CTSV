@@ -26,47 +26,44 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        genderSetUp()
         setData()
-        setBirthDateSelector()
         setSaveButtonCommand()
         setBackButton()
     }
 
-    private fun setBackButton(){
+    private fun setBackButton() {
         binding.imgBack.setOnClickListener {
-            onBackPressed()
-        }
-    }
-    private fun setBirthDateSelector(){
-        binding.edtBirthday.setOnClickListener {
-            pickDateSetting()
+            finish()
         }
     }
 
-    private fun setSaveButtonCommand(){
+    private fun setSaveButtonCommand() {
         binding.btnSaveProfile.setOnClickListener {
-            if(isValidName() && isValidPhoneNumber()){
-//                var information: Information =
-//                    Information(
-//                        fullName = binding.edtName.text.toString(),
-//                        gender = binding.gender.text.toString(),
-//                        birthDay = binding.edtBirthday.text.toString(),
-//                        phoneNumber = binding.edtPhoneNumber.text.toString(),
-//                        addressLane = binding.edtAddressLane.text.toString(),
-//                        city = binding.edtCity.text.toString(),
-//                        district = binding.edtDistrict.text.toString()
-//                    )
-//                viewModel.updateUserInfo(information)
-                val updates = mutableMapOf<String, Any>(
-                    "isNew" to FieldValue.delete()
-                )
-                FirebaseFirestore.getInstance().collection("salerAccount").document(AppUtil.currentAccount.email).update(updates)
-                Toast.makeText(this,"Saved", Toast.LENGTH_SHORT).show()
+            if (isValidName() && isValidPhoneNumber() && !isEmptyInformation()) {
+                val information =
+                    Information(
+                        fullName = binding.edtName.text.toString(),
+                        introduction = binding.edtIntroduction.text.toString(),
+                        address = binding.edtAddress.text.toString(),
+                        phoneNumber = binding.edtPhoneNumber.text.toString(),
+                        webSite = binding.edtWebsite.text.toString(),
+                    )
+                viewModel.updateUserInfo(information)
+                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(baseContext, MainActivity::class.java))
                 finish()
+            }else{
+                Toast.makeText(this, "Thông tin không hợp lệ!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun isEmptyInformation(): Boolean {
+        return binding.edtName.text.isNullOrBlank() &&
+                binding.edtIntroduction.text.isNullOrBlank() &&
+                binding.edtAddress.text.isNullOrBlank() &&
+                binding.edtPhoneNumber.text.isNullOrBlank() &&
+                binding.edtWebsite.text.isNullOrBlank()
     }
 
     private fun isValidName(): Boolean {
@@ -83,6 +80,7 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun isNameContainNumberOrSpecialCharacter(name: String): Boolean {
         var hasNumber: Boolean = Pattern.compile(
             "[0-9]"
@@ -92,57 +90,32 @@ class EditProfileActivity : AppCompatActivity() {
         ).matcher(name).find()
         return hasNumber || hasSpecialCharacter
     }
-    private fun isValidPhoneNumber():Boolean{
+
+    private fun isValidPhoneNumber(): Boolean {
         var result = false
-        if(binding.edtPhoneNumber.text.isNotEmpty()){
+        if (binding.edtPhoneNumber.text.isNotEmpty()) {
             result = Pattern.compile(
                 "^[+]?[0-9]{10,13}\$"
             ).matcher(binding.edtPhoneNumber.text).find()
-            if(!result){
-                binding.edtPhoneNumber.error ="Please enter right phone number!"
+            if (!result) {
+                binding.edtPhoneNumber.error = "Please enter right phone number!"
             }
         }
 
         return result
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
     }
-    private fun genderSetUp(){
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.gender_item,
-            resources.getStringArray(R.array.gender)
-        )
-        binding.gender.setAdapter(adapter)
-    }
-    private fun setData(){
-        binding.edtName.setText( viewModel.getUserInfo().fullName)
-//        binding.edtBirthday.setText(viewModel.getUserInfo().birthDay)
-//        binding.edtAddressLane.setText(viewModel.getUserInfo().addressLane)
-//        binding.edtDistrict.setText(viewModel.getUserInfo().district)
-//        binding.edtCity.setText(viewModel.getUserInfo().city)
-//        binding.edtPhoneNumber.setText(viewModel.getUserInfo().phoneNumber)
-//        binding.gender.setText(viewModel.getUserInfo().gender, false)
 
-    }
-    private fun pickDateSetting(){
-        val c: Calendar = Calendar.getInstance()
-        val day: Int = c.get(Calendar.DAY_OF_MONTH)
-        val month: Int = c.get(Calendar.MONTH)
-        val year: Int = c.get(Calendar.YEAR)
-
-        val dpd: DatePickerDialog = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { _: DatePicker, mYear: Int, mMonth: Int, mDay: Int ->
-
-                binding.edtBirthday.setText("$mDay/${mMonth + 1}/$mYear")
-            },
-            year,
-            month,
-            day
-        )
-        dpd.show()
+    private fun setData() {
+        val information = viewModel.getUserInfo()
+        binding.edtName.setText(information.fullName)
+        binding.edtWebsite.setText(information.webSite)
+        binding.edtAddress.setText(information.address)
+        binding.edtPhoneNumber.setText(information.phoneNumber)
+        binding.edtIntroduction.setText(information.introduction)
     }
 }

@@ -63,8 +63,8 @@
         <item>Art</item>
     </string-array>
     <string name="fiction"> Fiction </string>
-    <string name="profile">Profile</string>
-    <string name="editprofile">Update Profile</string>
+    <string name="profile">Thông tin</string>
+    <string name="editprofile">Chỉnh sửa thông tin</string>
     <string name="Feature">Feature</string>
     <string name="your_location">Your location</string>
     <string name="search_book">Search Books</string>

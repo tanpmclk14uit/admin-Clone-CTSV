@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/profile_background"
+    android:background="@color/blue_light"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
     tools:context=".EditProfileActivity">
     <ImageView
@@ -26,7 +26,7 @@
         android:id="@+id/tvEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="35dp"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/editprofile"
         android:textColor="@color/white"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Name"
+                android:text="Tên"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 android:textStyle="bold"
@@ -75,7 +75,6 @@
                 android:id="@+id/edtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:autofillHints="Name"
                 android:fontFamily="@font/roboto_regular"
                 android:inputType="text"
@@ -86,99 +85,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
-            <LinearLayout
-                android:id="@+id/llGenderAndBirth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edtName">
-
-                <LinearLayout
-                    android:layout_width="110dp"
-                    android:layout_height="match_parent"
-                    android:layout_column="0"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvGender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Gender"
-                        android:textColor="@color/black"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/genderLayout"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:autofillHints="Gender"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/less_black"
-                        android:textSize="16sp">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/gender"
-                            android:paddingStart="2dp"
-
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="7dp"
-                            android:background="@color/white"
-                            android:padding="0dp"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvBirthday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Birthday"
-                        android:textColor="@color/black"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/edtBirthday"
-                        android:editable="false"
-                        android:focusedByDefault="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp"
-                        android:autofillHints="Gender"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/less_black"
-                        android:textSize="16dp"
-                        tools:ignore="Deprecated" />
-                </LinearLayout>
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Phone Number"
+                android:text="Số điện thoại"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llGenderAndBirth" />
+                app:layout_constraintTop_toBottomOf="@+id/edtName" />
 
             <EditText
                 android:id="@+id/edtPhoneNumber"
@@ -197,9 +117,8 @@
                 android:id="@+id/tvAddressLane"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Address Lane"
+                android:text="Website"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 android:textStyle="bold"
@@ -209,7 +128,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/edtPhoneNumber" />
 
             <EditText
-                android:id="@+id/edtAddressLane"
+                android:id="@+id/edtWebsite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="Address Lane"
@@ -230,7 +149,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:columnCount="2"
                 android:rowCount="1"
-                app:layout_constraintTop_toBottomOf="@+id/edtAddressLane">
+                app:layout_constraintTop_toBottomOf="@+id/edtWebsite">
 
                 <LinearLayout
                     android:layout_column="0"
@@ -243,13 +162,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="City"
+                        android:text="Địa chỉ"
                         android:textColor="@color/black"
                         android:textSize="16dp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/edtCity"
+                        android:id="@+id/edtAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:autofillHints="City"
@@ -272,19 +191,21 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:inputType="text"
-                        android:text="District"
+                        android:text="Chức năng"
                         android:textColor="@color/black"
                         android:textSize="16dp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtDistrict"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtIntroduction"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:autofillHints="District"
+                        android:layout_height="wrap_content"
+                        android:gravity="start|top"
+                        android:maxLines="10"
+                        android:singleLine="false"
+                        android:text="@string/textTest"
                         android:fontFamily="@font/roboto_regular"
-                        android:inputType="text"
+                        android:inputType="none"
                         android:textColor="@color/less_black"
                         android:textSize="16dp" />
                 </LinearLayout>
@@ -307,14 +228,13 @@
             android:layout_width="match_parent"
             android:layout_marginHorizontal="5dp"
             android:layout_height="50dp"
-
             android:layout_marginBottom="10dp"
             android:background="@drawable/ripple"
             android:fontFamily="@font/roboto_medium"
-            android:text="Save"
+            android:text="Cập nhật thông tin"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:backgroundTint="@color/green"
+            app:backgroundTint="@color/blue_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

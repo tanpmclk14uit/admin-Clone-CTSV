@@ -19,7 +19,6 @@ class UserRepository @Inject constructor(
     fun updateUserData(information: Information){
        AppUtil.currentAccount.information = information
         AppUtil.currentInformation = information
-        FirebaseFirestore.getInstance().collection("accounts").document(AppUtil.currentAccount.email).set(AppUtil.currentAccount)
         FirebaseFirestore.getInstance().collection("salerAccount").document(AppUtil.currentAccount.email).set(AppUtil.currentAccount)
     }
 }
