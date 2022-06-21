@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.admin_bookmarket.ViewModel.UserViewModel
 import com.example.admin_bookmarket.data.common.AppUtil
-import com.example.admin_bookmarket.data.model.User
+import com.example.admin_bookmarket.data.model.Information
 import com.example.admin_bookmarket.databinding.ActivityEditProfileBinding
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,16 +47,17 @@ class EditProfileActivity : AppCompatActivity() {
     private fun setSaveButtonCommand(){
         binding.btnSaveProfile.setOnClickListener {
             if(isValidName() && isValidPhoneNumber()){
-                var user: User = User(
-                    fullName = binding.edtName.text.toString(),
-                    gender = binding.gender.text.toString(),
-                    birthDay = binding.edtBirthday.text.toString(),
-                    phoneNumber = binding.edtPhoneNumber.text.toString(),
-                    addressLane = binding.edtAddressLane.text.toString(),
-                    city = binding.edtCity.text.toString(),
-                    district = binding.edtDistrict.text.toString()
-                )
-                viewModel.updateUserInfo(user)
+//                var information: Information =
+//                    Information(
+//                        fullName = binding.edtName.text.toString(),
+//                        gender = binding.gender.text.toString(),
+//                        birthDay = binding.edtBirthday.text.toString(),
+//                        phoneNumber = binding.edtPhoneNumber.text.toString(),
+//                        addressLane = binding.edtAddressLane.text.toString(),
+//                        city = binding.edtCity.text.toString(),
+//                        district = binding.edtDistrict.text.toString()
+//                    )
+//                viewModel.updateUserInfo(information)
                 val updates = mutableMapOf<String, Any>(
                     "isNew" to FieldValue.delete()
                 )
@@ -118,12 +119,12 @@ class EditProfileActivity : AppCompatActivity() {
     }
     private fun setData(){
         binding.edtName.setText( viewModel.getUserInfo().fullName)
-        binding.edtBirthday.setText(viewModel.getUserInfo().birthDay)
-        binding.edtAddressLane.setText(viewModel.getUserInfo().addressLane)
-        binding.edtDistrict.setText(viewModel.getUserInfo().district)
-        binding.edtCity.setText(viewModel.getUserInfo().city)
-        binding.edtPhoneNumber.setText(viewModel.getUserInfo().phoneNumber)
-        binding.gender.setText(viewModel.getUserInfo().gender, false)
+//        binding.edtBirthday.setText(viewModel.getUserInfo().birthDay)
+//        binding.edtAddressLane.setText(viewModel.getUserInfo().addressLane)
+//        binding.edtDistrict.setText(viewModel.getUserInfo().district)
+//        binding.edtCity.setText(viewModel.getUserInfo().city)
+//        binding.edtPhoneNumber.setText(viewModel.getUserInfo().phoneNumber)
+//        binding.gender.setText(viewModel.getUserInfo().gender, false)
 
     }
     private fun pickDateSetting(){

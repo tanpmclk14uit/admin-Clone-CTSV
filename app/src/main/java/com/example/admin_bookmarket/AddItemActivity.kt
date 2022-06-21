@@ -17,7 +17,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.admin_bookmarket.ViewModel.AddItemViewModel
 import com.example.admin_bookmarket.data.common.AppUtil
-import com.example.admin_bookmarket.data.common.AppUtils
 import com.example.admin_bookmarket.data.common.Constants
 import com.example.admin_bookmarket.databinding.ActivityAddItemBinding
 import com.example.admin_bookmarket.ui.login.LoadDialog
@@ -156,7 +155,7 @@ class AddItemActivity : AppCompatActivity() {
             "Description" to binding.idDescription.text.toString(),
             "ImageID" to imgId,
             "Saler" to AppUtil.currentAccount.email,
-            "SalerName" to AppUtil.currentAccount.user.fullName
+            "SalerName" to AppUtil.currentAccount.information.fullName
         )
         viewModel.addtoDb(newBook)
         binding.idCount.setText("", TextView.BufferType.EDITABLE)

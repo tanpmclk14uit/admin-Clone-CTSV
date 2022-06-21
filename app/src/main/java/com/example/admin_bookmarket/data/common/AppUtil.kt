@@ -3,13 +3,13 @@ package com.example.admin_bookmarket.data.common
 import com.example.admin_bookmarket.data.model.AppAccount
 import com.example.admin_bookmarket.data.model.Book
 import com.example.admin_bookmarket.data.model.Order
-import com.example.admin_bookmarket.data.model.User
+import com.example.admin_bookmarket.data.model.Information
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlin.math.roundToInt
 
 object AppUtil {
-    var currentUser: User = User()
-    var currentAccount: AppAccount = AppAccount("", "", currentUser)
+    var currentInformation: Information = Information()
+    var currentAccount: AppAccount = AppAccount("", "", currentInformation)
     var currentOrder: Order = Order()
 
     fun toBook(doc: QueryDocumentSnapshot): Book {

@@ -10,11 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.admin_bookmarket.EditProfileActivity
 import com.example.admin_bookmarket.MainActivity
 import com.example.admin_bookmarket.R
-import com.example.admin_bookmarket.RegisterActivity
 import com.example.admin_bookmarket.data.FullBookList
 import com.example.admin_bookmarket.data.common.AppUtil
-import com.example.admin_bookmarket.data.model.AppAccount
-import com.example.admin_bookmarket.data.model.User
+import com.example.admin_bookmarket.data.model.Information
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -54,11 +52,6 @@ class LoginActivity : AppCompatActivity() {
         loginPasswordLayout = findViewById(R.id.LoginPasswordLayout)
         loginPassword = findViewById(R.id.LoginPassword)
         loginButton = findViewById(R.id.loginButton)
-        loginSignUp = findViewById(R.id.LoginSignUp)
-        val resetPassword: TextView = findViewById(R.id.resetPass)
-        resetPassword.setOnClickListener {
-            startActivity(Intent(baseContext, ForgotPassword::class.java))
-        }
         loginPassword.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 loginPasswordLayout.error = null
@@ -66,10 +59,6 @@ class LoginActivity : AppCompatActivity() {
         }
         loginButton.setOnClickListener {
             onButtonLoginClick()
-        }
-        loginSignUp.setOnClickListener {
-            startActivity(Intent(baseContext, RegisterActivity::class.java))
-            finish() //remove activity from backstack
         }
     }
 
@@ -82,7 +71,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onButtonLoginClick() {
-
         if (isValidEmail() && isValidPassword()) {
             loadDialog = LoadDialog(this)
             loadDialog.startLoading()
@@ -103,31 +91,17 @@ class LoginActivity : AppCompatActivity() {
                                 AppUtil.currentAccount.email = email
                                 FirebaseFirestore.getInstance().collection("salerAccount")
                                     .document(email).get().addOnSuccessListener {
-                                    if (it.data?.get("isNew").toString() == "true") {
                                         loadDialog.dismissDialog()
-                                        startActivity(
-                                            Intent(
-                                                baseContext,
-                                                EditProfileActivity::class.java
-                                            )
+                                        val recentInformation: Information = Information(
+                                            fullName = it.data!!["fullName"].toString(),
+                                            introduction = it.data!!["introduction"].toString(),
+                                            webSite = it.data!!["webSite"].toString(),
+                                            phoneNumber = it.data!!["phoneNumber"].toString(),
+                                            address = it.data!!["address"].toString(),
                                         )
-                                        finish()
-                                    } else {
-                                        loadDialog.dismissDialog()
                                         startActivity(Intent(baseContext, MainActivity::class.java))
-                                        val userMap = it.data?.get("user") as HashMap<*, *>
-                                        val recentUser: User = User(
-                                            fullName = userMap["fullName"].toString(),
-                                            gender = userMap["gender"].toString(),
-                                            birthDay = userMap["birthDay"].toString(),
-                                            phoneNumber = userMap["phoneNumber"].toString(),
-                                            addressLane = userMap["addressLane"].toString(),
-                                            city = userMap["city"].toString(),
-                                            district = userMap["district"].toString(),
-                                        )
-                                        AppUtil.currentUser = recentUser
+                                        AppUtil.currentInformation = recentInformation
                                         finish()
-                                    }
                                 }
                             } else {
                                 loginPasswordLayout.error = task.exception!!.message.toString()
@@ -136,50 +110,9 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
                 } else {
-                    dbAccountsReference.get().addOnSuccessListener {
-                        var isBuyer: Boolean = false
-                        var name: String = ""
-                        for (document in it) {
-                            if (document.id == loginEmail.text.toString()) {
-                                isBuyer = true
-                                val mapOfUser: MutableMap<String, Any> =
-                                    document.data["user"] as MutableMap<String, Any>
-                                name = mapOfUser.get("fullName").toString()
-                            }
-                        }
-                        if (isBuyer) {
-                            val email = loginEmail.text.toString()
-                            val password = loginPassword.text.toString()
-                            val user = User(name)
-                            val appAccount = AppAccount(email, "", user)
-                            FirebaseFirestore.getInstance().collection("salerAccount")
-                                .document(email).set(appAccount)
-                            auth.signInWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(this) { task ->
-                                    if (task.isSuccessful) {
-                                        FullBookList.getInstance()
-                                        AppUtil.currentAccount.email = email
-                                        loadDialog.dismissDialog()
-                                        startActivity(
-                                            Intent(
-                                                baseContext,
-                                                EditProfileActivity::class.java
-                                            )
-                                        )
-                                        finish()
-                                    } else {
-                                        loginPasswordLayout.error =
-                                            task.exception!!.message.toString()
-                                        loginPassword.clearFocus()
-                                        loadDialog.dismissDialog()
-                                    }
-                                }
-                        } else {
-                            Toast.makeText(this, "Wrong email or password!", Toast.LENGTH_SHORT)
-                                .show()
-                            loadDialog.dismissDialog()
-                        }
-                    }
+                    Toast.makeText(this, "Sai tài khoản đăng nhập!", Toast.LENGTH_LONG).show()
+                    loginPassword.clearFocus()
+                    loadDialog.dismissDialog()
                 }
             }
         }

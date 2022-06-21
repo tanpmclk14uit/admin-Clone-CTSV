@@ -34,18 +34,18 @@ class ProfileActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setInfoView(){
-        binding.email.text = viewModel.getAccountInfo().email
-        binding.userName.text = viewModel.getUserInfo().fullName
-        binding.birthday.text = viewModel.getUserInfo().birthDay
-        binding.addressLane.text = viewModel.getUserInfo().addressLane +", "+viewModel.getUserInfo().district
-        binding.gender.text = viewModel.getUserInfo().gender
-        binding.phone.text = viewModel.getUserInfo().phoneNumber
-        binding.city.text = viewModel.getUserInfo().city
-        if(viewModel.getUserInfo().gender =="Male"){
-            binding.avatar.setImageResource(R.drawable.ic_male)
-        }else{
-            binding.avatar.setImageResource(R.drawable.ic_female)
-        }
+//        binding.email.text = viewModel.getAccountInfo().email
+//        binding.userName.text = viewModel.getUserInfo().fullName
+//        binding.birthday.text = viewModel.getUserInfo().birthDay
+//        binding.addressLane.text = viewModel.getUserInfo().addressLane +", "+viewModel.getUserInfo().district
+//        binding.gender.text = viewModel.getUserInfo().gender
+//        binding.phone.text = viewModel.getUserInfo().phoneNumber
+//        binding.city.text = viewModel.getUserInfo().city
+//        if(viewModel.getUserInfo().gender =="Male"){
+//            binding.avatar.setImageResource(R.drawable.ic_male)
+//        }else{
+//            binding.avatar.setImageResource(R.drawable.ic_female)
+//        }
     }
 
 
