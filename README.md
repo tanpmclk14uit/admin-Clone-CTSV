@@ -1,6 +1,5 @@
-# OnlineBookMarket - CHỢ SÁCH CHO MỌI NGƯỜI
-# Ứng dụng dành cho người bán - OnlineBookMarketForSeller
-Đây là ứng dụng đi kèm ứng dụng chính OnlineBookMarket dành cho người bán với các chức năng như thêm sách để bán, cập nhật sách theo dõi đơn hàng và thống kê đơn hàng của mình.
+# Admin Công Tác Sinh Viên
+Đây là ứng dụng đi kèm ứng dụng chính Công tác sinh viên để thêm thông báo và quản lý các dịch vụ online.
 
 ## Nội Dung
 
@@ -9,18 +8,18 @@
 ### Đăng nhập/ Đăng ký
 
 - Đăng nhập
-- Đăng ký
 
 ### Trang Chủ
 
-- Trang chủ bao gồm sách của bản thân
-- Search sách theo tên
+- Trang chủ bao gồm tất cả thông báo
+- Search thông báo theo tiêu đề
 
 ### Đơn hàng
 
-- Thông tin và tình trạng đơn hàng
-- Chỉnh sửa tình trạng đơn hàng
-- Thống kê đơn hàng.
+- Thông tin và tình trạng giấy xác nhận đã đăng kí
+- Chỉnh sửa tình trạng giấy xác nhận sinh viên
+- Thống kê giấy xác nhận
+- phản hồi của sinh viên về giấy xác nhận
 
 ## Yêu cầu thiết bị
 
@@ -41,7 +40,6 @@
 ## Tác giả
 
 - Phạm Minh Tân (19520261@gm.uit.edu.vn)
-- Bùi Dương Duy Khang (19520618@gm.uit.edu.vn)
 
 ## Giấy phép
 
