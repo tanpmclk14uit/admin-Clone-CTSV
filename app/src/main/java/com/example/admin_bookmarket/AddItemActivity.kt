@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -73,7 +74,7 @@ class AddItemActivity : AppCompatActivity() {
     }
 
     private fun checkValidKind(): Boolean {
-        return if (binding.idKind.text.toString() != "Kind") {
+        return if (binding.idKind.text.isNotEmpty()) {
             true
         } else {
             binding.idKind.error = "Chọn loại thông báo"
@@ -84,28 +85,39 @@ class AddItemActivity : AppCompatActivity() {
 
     private fun pushImageToStorage() {
         if (checkValidEditText(binding.idTitle) &&
-             checkValidEditText(
-                binding.idDescription
-            ) && imageUri != null
-
+            checkValidEditText(binding.idDescription) &&
+            checkValidKind()
         ) {
-            loadDialog = LoadDialog(this)
-            loadDialog.startLoading()
-            val imgId =
-                System.currentTimeMillis().toString() + "." + getFileExtension(imageUri as Uri)
-            val fileRef: StorageReference = reference.child(imgId)
+            if (imageUri != null) {
+                loadDialog = LoadDialog(this)
+                loadDialog.startLoading()
+                val imgId =
+                    System.currentTimeMillis().toString() + "." + getFileExtension(imageUri as Uri)
+                val fileRef: StorageReference = reference.child(imgId)
 
-            fileRef.putFile(imageUri as Uri).addOnSuccessListener {
-                fileRef.downloadUrl.addOnSuccessListener {
-                    Toast.makeText(this, "Tải hình ảnh thành công", Toast.LENGTH_SHORT).show()
-                    addNewBook(it.toString(), imgId)
+                fileRef.putFile(imageUri as Uri).addOnSuccessListener {
+                    fileRef.downloadUrl.addOnSuccessListener {
+                        Toast.makeText(this, "Tải hình ảnh thành công", Toast.LENGTH_SHORT)
+                            .show()
+                        addNewBook(it.toString(), imgId)
+                        loadDialog.dismissDialog()
+                    }
+                }.addOnFailureListener {
                     loadDialog.dismissDialog()
-                }
-            }.addOnFailureListener {
-                loadDialog.dismissDialog()
-                Toast.makeText(this, "Tải hình ảnh lên thất bại $it", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Tải hình ảnh lên thất bại $it", Toast.LENGTH_SHORT)
+                        .show()
 
+                }
+            } else {
+                loadDialog = LoadDialog(this)
+                loadDialog.startLoading()
+                val imgId = "default"
+                // default image
+                val imgURL = "https://tuoitre.uit.edu.vn/wp-content/uploads/2015/07/logo-uit.png"
+                addNewBook(imgURL, imgId)
+                loadDialog.dismissDialog()
             }
+
         } else {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
         }
@@ -146,8 +158,8 @@ class AddItemActivity : AppCompatActivity() {
         binding.idTitle.setText("", TextView.BufferType.EDITABLE)
         binding.idDescription.setText("", TextView.BufferType.EDITABLE)
         binding.idKind.setText("", TextView.BufferType.EDITABLE)
-        binding.idThumbnail.setImageDrawable(resources.getDrawable(R.drawable.add_new_book))
-       // binding.idTnBackground.setBackgroundDrawable(resources.getDrawable(R.drawable.add_new_book))
+        binding.idThumbnail.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_add_a_photo_24))
+        // binding.idTnBackground.setBackgroundDrawable(resources.getDrawable(R.drawable.add_new_book))
         Toast.makeText(this, "Thêm thông báo thành công", Toast.LENGTH_SHORT).show()
     }
 

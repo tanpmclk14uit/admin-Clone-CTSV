@@ -8,7 +8,6 @@ import android.os.Build
 import com.example.admin_bookmarket.data.model.Order
 
 object AppUtils {
-    var currentOrder = Order()
     var oderList: MutableList<Order> = ArrayList()
     fun checkInternet(context: Context): Boolean {
         val connectivityManager: ConnectivityManager =

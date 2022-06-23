@@ -25,17 +25,8 @@ class OrderRepository @Inject constructor(
         )
     }
 
-    fun getAllBillingIemFromDB(userId: String, docId: String): Query {
-        return userCollRef.document(userId).collection(TAG).document(docId).collection("books")
-            .orderBy(
-                "price",
-                Query.Direction.ASCENDING
-            )
-    }
     fun updateOrderStatus(userId: String, docId: String, status: String): Boolean{
-
         return userCollRef.document(userId).collection(TAG).document(docId).update("status", status).isSuccessful
-
     }
 
 }

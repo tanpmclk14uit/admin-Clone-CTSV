@@ -49,14 +49,6 @@ object Constants {
         }
     }
 
-    enum class CATEGORY{
-        COMIC, FICTION, NOVEL, BUSINESS, TECHNOLOGY, ART;
-
-        override fun toString(): String {
-            return name.toLowerCase().capitalize()
-        }
-    }
-
     // activity detail
     const val ITEM = "ITEM_TO_DISPLAY"
 
@@ -64,4 +56,46 @@ object Constants {
     //Tags
     const val VMTAG = "VMTAG"
 
+    enum class CATEGORY{
+        CHUNG, HV, VB2, LTCQ, NB, PH;
+        override fun toString(): String {
+            val result = when(this){
+                CHUNG -> "Chung"
+                HV -> "Học vụ"
+                VB2 -> "Văn bằng 2"
+                LTCQ -> "Liên thông chính quy"
+                NB -> "Nghỉ/ bù"
+                PH -> "Phòng học"
+            }
+            return result
+        }
+
+        fun getShortName(): String{
+            val result = when(this){
+                CHUNG -> "Chung"
+                HV -> "Học vụ"
+                VB2 -> "Văn bằng 2"
+                LTCQ -> "LTCQ"
+                NB -> "Nghỉ/ bù"
+                PH -> "Phòng học"
+            }
+            return result.toUpperCase()
+        }
+    }
+    enum class OrderKind{
+        GXNSV, GXNVVNH
+    }
+    enum class OrderStatus{
+        WAITING, CONFIRMED, PRINTED, CANCEL, COMPLETE;
+
+        override fun toString(): String {
+            return when(this){
+                WAITING -> "Chờ duyệt"
+                CONFIRMED -> "Đã duyệt"
+                PRINTED -> "Đã in"
+                CANCEL -> "Đã hủy"
+                COMPLETE -> "Đã nhận"
+            }
+        }
+    }
 }

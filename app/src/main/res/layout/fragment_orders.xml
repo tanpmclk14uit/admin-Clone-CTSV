@@ -28,7 +28,7 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Orders manage"
+                    android:text="Quản lý yêu cầu"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="24dp"
@@ -47,7 +47,18 @@
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         </androidx.recyclerview.widget.RecyclerView>
-
+        <TextView
+            android:id="@+id/noItemToShow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/less_black"
+            android:textSize="15sp"
+            android:text="Không có yêu cầu với trạng thái này!"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/option"
             android:layout_width="wrap_content"

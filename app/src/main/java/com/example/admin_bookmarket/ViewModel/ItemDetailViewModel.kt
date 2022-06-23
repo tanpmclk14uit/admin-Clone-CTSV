@@ -80,16 +80,23 @@ class ItemDetailViewModel @Inject constructor(
     private val reference: StorageReference = FirebaseStorage.getInstance().reference
 
     fun deleteBook(book: Book) {
-        val desertRef = reference.child(book.imageId!!)
-        desertRef.delete().addOnSuccessListener {
-            FirebaseFirestore.getInstance().collection("books").document(book.id!!).delete()
-                .addOnSuccessListener {
-                    Toast.makeText(appContext, "Xóa thông báo thành công", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener { e ->
+        if(book.imageId!= "default"){
+            val desertRef = reference.child(book.imageId!!)
+            desertRef.delete().addOnSuccessListener {
+               removeBookFromFireBase(book)
+            }.addOnFailureListener { e ->
                 Toast.makeText(appContext, "Xóa thông báo thất bại $e", Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener { e ->
-            Toast.makeText(appContext, "Xóa thông báo thất bại $e", Toast.LENGTH_SHORT).show()
+        }else{
+            removeBookFromFireBase(book)
         }
+    }
+    private fun removeBookFromFireBase(book: Book){
+        FirebaseFirestore.getInstance().collection("books").document(book.id!!).delete()
+            .addOnSuccessListener {
+                Toast.makeText(appContext, "Xóa thông báo thành công", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener { e ->
+                Toast.makeText(appContext, "Xóa thông báo thất bại $e", Toast.LENGTH_SHORT).show()
+            }
     }
 }

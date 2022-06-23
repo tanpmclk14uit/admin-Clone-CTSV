@@ -2,6 +2,7 @@ package com.example.admin_bookmarket
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.admin_bookmarket.ViewModel.OrderViewModel
 import com.example.admin_bookmarket.data.adapter.OrderAdapter
 import com.example.admin_bookmarket.data.common.AppUtils
+import com.example.admin_bookmarket.data.common.Constants
 import com.example.admin_bookmarket.data.model.Order
 import com.example.admin_bookmarket.databinding.FragmentOrdersBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +28,7 @@ class OrdersFragment : Fragment(), RecyclerViewClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
     private var showList: MutableList<Order> = ArrayList()
     private var listStatus: String = ""
     override fun onCreateView(
@@ -50,26 +53,28 @@ class OrdersFragment : Fragment(), RecyclerViewClickListener {
         setUpMessage()
         return binding.root
     }
-    private fun setUpMessage(){
-        if(showList.size == 0){
-            binding.noItemToShow!!.visibility = View.VISIBLE
-        }else{
-            binding.noItemToShow!!.visibility = View.GONE
+
+    private fun setUpMessage() {
+        if (showList.size == 0) {
+            binding.noItemToShow.visibility = View.VISIBLE
+        } else {
+            binding.noItemToShow.visibility = View.GONE
         }
     }
 
     private fun getOrders(orderAdapter: OrderAdapter) {
-        viewModel.getAllOrder().observe(this.viewLifecycleOwner, { changes ->
+        viewModel.getAllOrder().observe(this.viewLifecycleOwner) { changes ->
             showList = changes
             AppUtils.oderList = changes
             if (listStatus != "") {
                 orderAdapter.addOrder(filterList(showList, listStatus))
             } else {
                 orderAdapter.addOrder(showList)
+                Log.d("hihi", showList.size.toString())
             }
             setUpMessage()
 
-        })
+        }
     }
 
     private fun filterList(orderList: MutableList<Order>, condition: String): MutableList<Order> {
@@ -93,15 +98,22 @@ class OrdersFragment : Fragment(), RecyclerViewClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.waiting -> listStatus ="WAITING"
-            R.id.confirmed ->listStatus="CONFIRMED"
-            R.id.delivering -> listStatus ="DELIVERING"
-            R.id.complete -> listStatus ="COMPLETE"
-            R.id.cancel ->listStatus ="CANCEL"
+        when (item.itemId) {
+            R.id.waiting -> listStatus = Constants.OrderStatus.WAITING.toString()
+            R.id.confirmed -> listStatus = Constants.OrderStatus.CONFIRMED.toString()
+            R.id.delivering -> listStatus = Constants.OrderStatus.PRINTED.toString()
+            R.id.complete -> listStatus = Constants.OrderStatus.COMPLETE.toString()
+            R.id.cancel -> listStatus = Constants.OrderStatus.CANCEL.toString()
         }
-        if(listStatus!=""){
-            orderListAdapter.addOrder(filterList(showList, listStatus))
+        if (listStatus != "") {
+            val filterList = filterList(showList, listStatus)
+            if (filterList.isEmpty()) {
+                binding.noItemToShow.visibility = View.VISIBLE
+            } else {
+                binding.noItemToShow.visibility = View.GONE
+            }
+            orderListAdapter.addOrder(filterList)
+
         }
         return super.onOptionsItemSelected(item)
     }

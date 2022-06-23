@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.admin_bookmarket.ViewModel.OrderViewModel
 import com.example.admin_bookmarket.data.adapter.DetailBillItemAdapter
+import com.example.admin_bookmarket.data.common.AppUtil
 import com.example.admin_bookmarket.data.common.AppUtils
 import com.example.admin_bookmarket.data.model.Order
 import com.example.admin_bookmarket.databinding.ActivityOrderDetailBinding
@@ -41,12 +42,11 @@ class OrderDetail : AppCompatActivity() {
         finish()
     }
 
-    private val currentOrder: Order = AppUtils.currentOrder
+    private val currentOrder: Order = AppUtil.currentOrder
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun setUpView() {
-
         binding.apply {
             orderId.text = currentOrder.id
             val statusValue = resources.getStringArray(R.array.status)
@@ -73,18 +73,18 @@ class OrderDetail : AppCompatActivity() {
                 setStatusOnTextChange(text.toString())
             }
             val formatter = DecimalFormat("#,###")
-
-            userEmail.text = currentOrder.currentUser.email
-
-            dateTime.text = currentOrder.dateTime
-            orderName.text = currentOrder.userDeliverAddress.fullName
-            orderPhoneNumber.text = currentOrder.userDeliverAddress.phoneNumber
-            orderAddress.text =
-                currentOrder.userDeliverAddress.addressLane + ", " + currentOrder.userDeliverAddress.district + ", " + currentOrder.userDeliverAddress.city + "."
-            val billAdapter: DetailBillItemAdapter = DetailBillItemAdapter(currentOrder.listbooks)
-            orderItemBill.adapter = billAdapter
-            orderItemBill.layoutManager = LinearLayoutManager(this.root.context)
-            orderSum.text = formatter.format(currentOrder.totalPrince.toLong()) + "đ"
+//
+//            userEmail.text = currentOrder.currentUser.email
+//
+//            dateTime.text = currentOrder.dateTime
+//            orderName.text = currentOrder.userDeliverAddress.fullName
+//            orderPhoneNumber.text = currentOrder.userDeliverAddress.phoneNumber
+//            orderAddress.text =
+//                currentOrder.userDeliverAddress.addressLane + ", " + currentOrder.userDeliverAddress.district + ", " + currentOrder.userDeliverAddress.city + "."
+//            val billAdapter: DetailBillItemAdapter = DetailBillItemAdapter(currentOrder.listbooks)
+//            orderItemBill.adapter = billAdapter
+//            orderItemBill.layoutManager = LinearLayoutManager(this.root.context)
+//            orderSum.text = formatter.format(currentOrder.totalPrince.toLong()) + "đ"
             if (currentOrder.status == "CANCEL") {
                 userReason.visibility = View.VISIBLE
                 userReasonLayout.visibility = View.VISIBLE
@@ -96,7 +96,7 @@ class OrderDetail : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun setStatusOnTextChange(text: String) {
-        val currentOrder: Order = AppUtils.currentOrder
+        val currentOrder: Order = AppUtil.currentOrder
         if (text != "WAITING") {
             if (currentOrder.status != text) {
                 setUpUpdateButton(true, "UPDATE")
@@ -150,7 +150,7 @@ class OrderDetail : AppCompatActivity() {
                 setUpUpdateButton(false,"UPDATE")
             }
         }
-        if(viewModel.updateUserStatus(currentOrder.currentUser.email, currentOrder.id, currentOrder.status)){
+        if(viewModel.updateUserStatus(currentOrder.studentEmail, currentOrder.id, currentOrder.status)){
             Toast.makeText(this, "update success", Toast.LENGTH_SHORT).show()
         }
     }

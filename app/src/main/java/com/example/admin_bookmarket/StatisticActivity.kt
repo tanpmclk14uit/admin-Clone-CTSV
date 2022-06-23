@@ -7,6 +7,7 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.charts.Pie
 import com.example.admin_bookmarket.data.common.AppUtils
+import com.example.admin_bookmarket.data.common.Constants
 import com.example.admin_bookmarket.data.model.Order
 
 import com.example.admin_bookmarket.databinding.ActivityStatisticBinding
@@ -44,21 +45,21 @@ class StatisticActivity : AppCompatActivity() {
         val listOrder: MutableList<Order> = AppUtils.oderList
         binding.apply {
             allOrders.text = listOrder.size.toString()
-            waitingOrder.text = filterList(AppUtils.oderList,"WAITING").size.toString()
-            confirmedOrders.text = filterList(AppUtils.oderList,"CONFIRMED").size.toString()
-            deliveringOrders.text = filterList(AppUtils.oderList,"DELIVERING").size.toString()
-            completeOrders.text = filterList(AppUtils.oderList,"COMPLETE").size.toString()
-            cancelOrders.text = filterList(AppUtils.oderList,"CANCEL").size.toString()
+            waitingOrder.text = filterList(AppUtils.oderList,Constants.OrderStatus.WAITING.toString()).size.toString()
+            confirmedOrders.text = filterList(AppUtils.oderList,Constants.OrderStatus.CONFIRMED.toString()).size.toString()
+            deliveringOrders.text = filterList(AppUtils.oderList,Constants.OrderStatus.PRINTED.toString()).size.toString()
+            completeOrders.text = filterList(AppUtils.oderList,Constants.OrderStatus.COMPLETE.toString()).size.toString()
+            cancelOrders.text = filterList(AppUtils.oderList,Constants.OrderStatus.CANCEL.toString()).size.toString()
         }
     }
     private fun setUpPieChart() {
         var pie: Pie = AnyChart.pie()
         var dataEntries: ArrayList<DataEntry> = ArrayList()
-        dataEntries.add(ValueDataEntry("Waiting", filterList(AppUtils.oderList,"WAITING").size))
-        dataEntries.add(ValueDataEntry("Confirmed", filterList(AppUtils.oderList,"CONFIRMED").size))
-        dataEntries.add(ValueDataEntry("Delivering", filterList(AppUtils.oderList,"DELIVERING").size))
-        dataEntries.add(ValueDataEntry("Complete", filterList(AppUtils.oderList,"COMPLETE").size))
-        dataEntries.add(ValueDataEntry("Cancel", filterList(AppUtils.oderList,"CANCEL").size))
+        dataEntries.add(ValueDataEntry(Constants.OrderStatus.WAITING.toString(), filterList(AppUtils.oderList,Constants.OrderStatus.WAITING.toString()).size))
+        dataEntries.add(ValueDataEntry(Constants.OrderStatus.CONFIRMED.toString(), filterList(AppUtils.oderList,Constants.OrderStatus.CONFIRMED.toString()).size))
+        dataEntries.add(ValueDataEntry(Constants.OrderStatus.PRINTED.toString(), filterList(AppUtils.oderList,Constants.OrderStatus.PRINTED.toString()).size))
+        dataEntries.add(ValueDataEntry(Constants.OrderStatus.COMPLETE.toString(), filterList(AppUtils.oderList,Constants.OrderStatus.COMPLETE.toString()).size))
+        dataEntries.add(ValueDataEntry(Constants.OrderStatus.CANCEL.toString(), filterList(AppUtils.oderList,Constants.OrderStatus.CANCEL.toString()).size))
         pie.data(dataEntries)
         binding.anyChart.setChart(pie)
 
