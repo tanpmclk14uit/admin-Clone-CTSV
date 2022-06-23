@@ -1,6 +1,7 @@
 package com.example.admin_bookmarket
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -35,22 +36,27 @@ class OrderDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpView()
+
         binding.backClick.setOnClickListener {
             onBackPressed()
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        setUpView()
+    }
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
     }
 
-    private val currentOrder: Order = AppUtil.currentOrder
+    private lateinit var currentOrder: Order
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun setUpView() {
+        currentOrder = AppUtil.currentOrder
         binding.apply {
             orderId.text = currentOrder.id
             val statusValue = resources.getStringArray(R.array.status)
@@ -67,7 +73,7 @@ class OrderDetail : AppCompatActivity() {
             if (currentOrder.status == Constants.OrderStatus.WAITING.toString()) {
                 setUpUpdateButton(true, Constants.ButtonState.XACNHAN.toString())
             } else {
-                if (currentOrder.status == Constants.OrderStatus.CANCEL.toString()) {
+                if (currentOrder.status == Constants.OrderStatus.CANCEL.toString()||currentOrder.status == Constants.OrderStatus.COMPLETE.toString()) {
                     status.isEnabled = false
                     statusBox.isEnabled = false
                 }
@@ -93,7 +99,7 @@ class OrderDetail : AppCompatActivity() {
                 familyKind.visibility = View.VISIBLE
                 // set data
                 tuitionKind.text = "Thuộc diện: ${ (currentOrder as OrderBankLoansIdentify).tuitionKind}"
-                familyKind.text =  "Thuộc đối tượng: ${ (currentOrder).familyKind}"
+                familyKind.text =  "Thuộc đối tượng: ${ (currentOrder as OrderBankLoansIdentify).familyKind}"
             }
             if (currentOrder.status == Constants.OrderStatus.CANCEL.toString()) {
                 // update view
@@ -153,19 +159,26 @@ class OrderDetail : AppCompatActivity() {
             currentOrder.status = binding.status.text.toString()
             setUpUpdateButton(false,Constants.ButtonState.CAPNHAT.toString())
         }else{
-            currentOrder.status = binding.status.text.toString()
-            if(currentOrder.status == Constants.OrderStatus.WAITING.toString()){
-                setUpUpdateButton(true, Constants.ButtonState.XACNHAN.toString())
-            }else{
-                if(currentOrder.status == Constants.OrderStatus.CANCEL.toString()){
-                    binding.status.isEnabled = false
-                    binding.statusBox.isEnabled = false
+            if(binding.status.text.toString() != Constants.OrderStatus.CANCEL.toString()){
+                currentOrder.status = binding.status.text.toString()
+                if(currentOrder.status == Constants.OrderStatus.WAITING.toString()){
+                    setUpUpdateButton(true, Constants.ButtonState.XACNHAN.toString())
+                }else{
+                    if(currentOrder.status == Constants.OrderStatus.COMPLETE.toString()){
+                        binding.status.isEnabled = false
+                        binding.statusBox.isEnabled = false
+                    }
+                    setUpUpdateButton(false,Constants.ButtonState.CAPNHAT.toString())
                 }
-                setUpUpdateButton(false,Constants.ButtonState.CAPNHAT.toString())
             }
         }
-        if(viewModel.updateUserStatus(currentOrder.studentEmail, currentOrder.id, currentOrder.status)){
-            Toast.makeText(this, "update success", Toast.LENGTH_SHORT).show()
+        if(binding.status.text.toString() == Constants.OrderStatus.CANCEL.toString()){
+            startActivity(Intent(this,CancelOrderActivity::class.java))
+        }else{
+            if(viewModel.updateUserStatus(currentOrder.studentEmail, currentOrder.id, currentOrder.status)){
+                Toast.makeText(this, "update success", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 }

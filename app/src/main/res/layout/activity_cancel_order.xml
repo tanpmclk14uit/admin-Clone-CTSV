@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="Nhập lý do hủy ở đây (Không bắt buộc)" />
+                    android:text="Nhập lý do hủy ở đây (Mặc định: Lỗi cú pháp)" />
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -78,6 +78,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint=""
                 android:layout_marginTop="-15dp"
                 android:background="@android:color/transparent"
                 android:paddingLeft="-15dp"
@@ -86,7 +87,7 @@
 
                 <EditText
                     android:id="@+id/LoginEmail"
-                    android:hint="Mặc định: Lỗi cú pháp"
+                    android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="25dp"

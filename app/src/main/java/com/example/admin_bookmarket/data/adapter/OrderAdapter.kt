@@ -67,8 +67,8 @@ class OrderAdapter(
         notifyDataSetChanged()
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @SuppressLint("SetTextI18n")
+
+    @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentOrder: Order = listOder[position]
         with(holder.itemView) {

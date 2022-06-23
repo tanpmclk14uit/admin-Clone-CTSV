@@ -22,20 +22,28 @@ class CancelOrderActivity : AppCompatActivity() {
             finish()
         }
         binding.submit.setOnClickListener {
-            if(binding.LoginEmail.text.isNullOrBlank()){
-                cancelOrder(AppUtil.currentOrder.id, "Lỗi cú pháp", AppUtil.currentOrder.studentEmail)
-            }else{
-                cancelOrder(AppUtil.currentOrder.id, binding.LoginEmail.text.toString(), AppUtil.currentOrder.studentEmail)
-            }
 
+            val reason = if (binding.LoginEmail.text.isNullOrBlank()) {
+                "Lỗi cú pháp"
+            } else {
+                binding.LoginEmail.text.toString()
+            }
+            cancelOrder(AppUtil.currentOrder.id, reason, AppUtil.currentOrder.studentEmail)
+            AppUtil.currentOrder.status = Constants.OrderStatus.CANCEL.toString()
+            AppUtil.currentOrder.cancelReason = "Phòng CTSV phản hồi: $reason"
             finish()
         }
     }
 
     private val TAG: String = "userOrder"
-    private fun cancelOrder(orderId: String, reason: String, studentEmail: String){
-        FirebaseFirestore.getInstance().collection("accounts").document(studentEmail).collection(TAG).document(orderId).update("status",
-            Constants.OrderStatus.CANCEL.toString())
-        FirebaseFirestore.getInstance().collection("accounts").document(studentEmail).collection(TAG).document(orderId).update("cancelReason","Phòng CTXV phản hồi: $reason")
+    private fun cancelOrder(orderId: String, reason: String, studentEmail: String) {
+        FirebaseFirestore.getInstance().collection("accounts").document(studentEmail)
+            .collection(TAG).document(orderId).update(
+            "status",
+            Constants.OrderStatus.CANCEL.toString()
+        )
+        FirebaseFirestore.getInstance().collection("accounts").document(studentEmail)
+            .collection(TAG).document(orderId)
+            .update("cancelReason", "Phòng CTSV phản hồi: $reason")
     }
 }
