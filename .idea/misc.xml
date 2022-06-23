@@ -10,10 +10,12 @@
         <entry key="app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.117" />
         <entry key="app/src/main/res/layout-v21/fragment_orders.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_add_item.xml" value="0.24270833333333333" />
+        <entry key="app/src/main/res/layout/activity_cancel_order.xml" value="0.18796296296296297" />
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_item_detail.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.10572916666666667" />
+        <entry key="app/src/main/res/layout/activity_order_detail.xml" value="0.18796296296296297" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.24270833333333333" />

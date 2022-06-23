@@ -98,4 +98,13 @@ object Constants {
             }
         }
     }
+    enum class ButtonState{
+        XACNHAN, CAPNHAT;
+        override fun toString(): String {
+            return when(this){
+                XACNHAN -> "XÁC NHẬN"
+                CAPNHAT -> "CẬP NHẬT"
+            }
+        }
+    }
 }

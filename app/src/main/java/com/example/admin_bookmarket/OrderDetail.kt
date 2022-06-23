@@ -1,6 +1,7 @@
 package com.example.admin_bookmarket
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -16,7 +17,10 @@ import com.example.admin_bookmarket.ViewModel.OrderViewModel
 import com.example.admin_bookmarket.data.adapter.DetailBillItemAdapter
 import com.example.admin_bookmarket.data.common.AppUtil
 import com.example.admin_bookmarket.data.common.AppUtils
+import com.example.admin_bookmarket.data.common.Constants
 import com.example.admin_bookmarket.data.model.Order
+import com.example.admin_bookmarket.data.model.OrderBankLoansIdentify
+import com.example.admin_bookmarket.data.model.OrderStudentIdentify
 import com.example.admin_bookmarket.databinding.ActivityOrderDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
@@ -60,36 +64,46 @@ class OrderDetail : AppCompatActivity() {
                 currentOrder.status,
                 false
             )
-            if (currentOrder.status == "WAITING") {
-                setUpUpdateButton(true, "CONFIRM")
+            if (currentOrder.status == Constants.OrderStatus.WAITING.toString()) {
+                setUpUpdateButton(true, Constants.ButtonState.XACNHAN.toString())
             } else {
-                if (currentOrder.status == "CANCEL") {
+                if (currentOrder.status == Constants.OrderStatus.CANCEL.toString()) {
                     status.isEnabled = false
                     statusBox.isEnabled = false
                 }
-                setUpUpdateButton(false, "UPDATE")
+                setUpUpdateButton(false, Constants.ButtonState.CAPNHAT.toString())
             }
             status.doOnTextChanged { text, start, before, count ->
                 setStatusOnTextChange(text.toString())
             }
-            val formatter = DecimalFormat("#,###")
-//
-//            userEmail.text = currentOrder.currentUser.email
-//
-//            dateTime.text = currentOrder.dateTime
-//            orderName.text = currentOrder.userDeliverAddress.fullName
-//            orderPhoneNumber.text = currentOrder.userDeliverAddress.phoneNumber
-//            orderAddress.text =
-//                currentOrder.userDeliverAddress.addressLane + ", " + currentOrder.userDeliverAddress.district + ", " + currentOrder.userDeliverAddress.city + "."
-//            val billAdapter: DetailBillItemAdapter = DetailBillItemAdapter(currentOrder.listbooks)
-//            orderItemBill.adapter = billAdapter
-//            orderItemBill.layoutManager = LinearLayoutManager(this.root.context)
-//            orderSum.text = formatter.format(currentOrder.totalPrince.toLong()) + "đ"
-            if (currentOrder.status == "CANCEL") {
-                userReason.visibility = View.VISIBLE
-                userReasonLayout.visibility = View.VISIBLE
-                userReason.text = currentOrder.cancelReason
-                reasonLine.visibility = View.VISIBLE
+            dateTime.text = currentOrder.dateTime
+            orderKind.text = currentOrder.kind
+            if (currentOrder.kind == Constants.OrderKind.GXNSV.toString()) {
+                // update view
+                reason.visibility = View.VISIBLE
+                tuitionKind.visibility = View.GONE
+                familyKind.visibility = View.GONE
+                // set data
+                reason.text = "Lý do xác nhận: ${(currentOrder as OrderStudentIdentify).reason}"
+
+            } else {
+                // update view
+                reason.visibility = View.GONE
+                tuitionKind.visibility = View.VISIBLE
+                familyKind.visibility = View.VISIBLE
+                // set data
+                tuitionKind.text = "Thuộc diện: ${ (currentOrder as OrderBankLoansIdentify).tuitionKind}"
+                familyKind.text =  "Thuộc đối tượng: ${ (currentOrder).familyKind}"
+            }
+            if (currentOrder.status == Constants.OrderStatus.CANCEL.toString()) {
+                // update view
+                cancelReasonLayout.visibility = View.VISIBLE
+                status.setTextColor(Color.GRAY)
+                // set data
+                cancelReason.text = currentOrder.cancelReason
+            } else {
+                // update view
+                cancelReasonLayout.visibility = View.GONE
             }
         }
     }
@@ -97,17 +111,17 @@ class OrderDetail : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun setStatusOnTextChange(text: String) {
         val currentOrder: Order = AppUtil.currentOrder
-        if (text != "WAITING") {
+        if (text != Constants.OrderStatus.CONFIRMED.toString()) {
             if (currentOrder.status != text) {
-                setUpUpdateButton(true, "UPDATE")
+                setUpUpdateButton(true, Constants.ButtonState.CAPNHAT.toString())
             } else {
-                setUpUpdateButton(false, "UPDATE")
+                setUpUpdateButton(false, Constants.ButtonState.CAPNHAT.toString())
             }
         } else {
             if (currentOrder.status != text) {
-                setUpUpdateButton(true, "UPDATE")
+                setUpUpdateButton(true, Constants.ButtonState.CAPNHAT.toString())
             } else {
-                setUpUpdateButton(true, "CONFIRM")
+                setUpUpdateButton(true, Constants.ButtonState.XACNHAN.toString())
             }
         }
 
@@ -117,7 +131,7 @@ class OrderDetail : AppCompatActivity() {
     private fun setUpUpdateButton(avai: Boolean, content: String) {
         if (avai) {
             binding.updateButton.isEnabled = true;
-            if (content == "CONFIRM") {
+            if (content == Constants.ButtonState.XACNHAN.toString()) {
                 binding.updateButton.setBackgroundColor(resources.getColor(R.color.green))
             } else {
                 binding.updateButton.setBackgroundColor(resources.getColor(R.color.blue_light))
@@ -134,20 +148,20 @@ class OrderDetail : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun setUpdateButtonClick(content: String) {
-        if (content == "CONFIRM") {
-            binding.status.setText("CONFIRMED", false)
+        if (content == Constants.ButtonState.XACNHAN.toString()) {
+            binding.status.setText(Constants.OrderStatus.CONFIRMED.toString(), false)
             currentOrder.status = binding.status.text.toString()
-            setUpUpdateButton(false,"UPDATE")
+            setUpUpdateButton(false,Constants.ButtonState.CAPNHAT.toString())
         }else{
             currentOrder.status = binding.status.text.toString()
-            if(currentOrder.status == "WAITING"){
-                setUpUpdateButton(true, "CONFIRM")
+            if(currentOrder.status == Constants.OrderStatus.WAITING.toString()){
+                setUpUpdateButton(true, Constants.ButtonState.XACNHAN.toString())
             }else{
-                if(currentOrder.status == "CANCEL"){
+                if(currentOrder.status == Constants.OrderStatus.CANCEL.toString()){
                     binding.status.isEnabled = false
                     binding.statusBox.isEnabled = false
                 }
-                setUpUpdateButton(false,"UPDATE")
+                setUpUpdateButton(false,Constants.ButtonState.CAPNHAT.toString())
             }
         }
         if(viewModel.updateUserStatus(currentOrder.studentEmail, currentOrder.id, currentOrder.status)){
