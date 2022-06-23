@@ -40,6 +40,9 @@ class OrderDetail : AppCompatActivity() {
         binding.backClick.setOnClickListener {
             onBackPressed()
         }
+        binding.userEmail.setOnClickListener {
+            startActivity(Intent(this, StudentProfileActivity::class.java))
+        }
     }
 
     override fun onStart() {

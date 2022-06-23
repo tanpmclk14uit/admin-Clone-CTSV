@@ -7,6 +7,7 @@ import kotlin.math.roundToInt
 object AppUtil {
     var currentInformation: Information = Information()
     var currentAccount: AppAccount = AppAccount("", "", currentInformation)
+    var currentStudent: StudentAccount = StudentAccount()
     lateinit var currentOrder: Order
 
     fun toBook(doc: QueryDocumentSnapshot): Book {
