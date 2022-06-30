@@ -73,6 +73,7 @@ class OrderDetail : AppCompatActivity() {
                 currentOrder.status,
                 false
             )
+            userEmail.text = currentOrder.studentEmail
             if (currentOrder.status == Constants.OrderStatus.WAITING.toString()) {
                 setUpUpdateButton(true, Constants.ButtonState.XACNHAN.toString())
             } else {
